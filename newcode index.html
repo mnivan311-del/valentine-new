@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Love.exe 2 – Final Update</title>
+
+<style>
+body {
+    margin: 0;
+    font-family: Arial, sans-serif;
+    overflow: hidden;
+    text-align: center;
+    background: black;
+    color: white;
+}
+
+.screen {
+    display: none;
+    height: 100vh;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    padding: 20px;
+}
+
+button {
+    padding: 12px 25px;
+    margin: 10px;
+    font-size: 16px;
+    border-radius: 10px;
+    border: none;
+    cursor: pointer;
+}
+
+#main { background: linear-gradient(135deg,#ff758c,#ff7eb3); color:black; display:flex; }
+#error { background:black; color:red; }
+#drama { background:#111; }
+#proposal { background: linear-gradient(135deg,#ff4d6d,#ff9a9e); color:black; }
+
+.confetti {
+    position: fixed;
+    width: 10px;
+    height: 10px;
+    top: 0;
+    animation: fall 3s linear forwards;
+}
+
+@keyframes fall {
+    to { transform: translateY(100vh) rotate(720deg); }
+}
+</style>
+</head>
+<body>
+
+<!-- SCENE 1 -->
+<div id="main" class="screen">
+    <h2>Love.exe 2 has detected feelings…</h2>
+    <button onclick="nextScene('error')">Continue ▶</button>
+</div>
+
+<!-- SCENE 2 FAKE ERROR -->
+<div id="error" class="screen">
+    <h1>⚠ SYSTEM ERROR ⚠</h1>
+    <p>Heart.exe has stopped working</p>
+    <button onclick="nextScene('drama')">Fix Feelings</button>
+</div>
+
+<!-- SCENE 3 DRAMA -->
+<div id="drama" class="screen">
+    <h2>This is the part in the movie where<br>someone almost loses love… 💔</h2>
+    <p>Are you absolutely sure you want to continue?</p>
+    <button onclick="loopNo()">No 😤</button>
+    <button onclick="nextScene('proposal')">Okay fine… continue 😔</button>
+</div>
+
+<!-- SCENE 4 FINAL PROPOSAL -->
+<div id="proposal" class="screen">
+    <h1>FINAL PROPOSAL MODE ACTIVATED 💍</h1>
+    <input id="nameInput" placeholder="Enter hero name ✨"><br>
+    <button id="yesBtn">YES, OBVIOUSLY 😍</button>
+    <button id="noBtn">No (this will break the universe)</button>
+    <div id="message" style="margin-top:20px; display:none;"></div>
+</div>
+
+<script>
+function nextScene(id){
+    document.querySelectorAll('.screen').forEach(s=>s.style.display='none');
+    document.getElementById(id).style.display='flex';
+}
+
+nextScene('main');
+
+function loopNo(){
+    alert("You can't leave. This is a rom-com. The script says LOVE WINS.");
+}
+
+const yesBtn = document.getElementById("yesBtn");
+const noBtn = document.getElementById("noBtn");
+const message = document.getElementById("message");
+
+yesBtn.addEventListener("mouseover", () => {
+    const x = Math.random() * (window.innerWidth - 120);
+    const y = Math.random() * (window.innerHeight - 60);
+    yesBtn.style.position="absolute";
+    yesBtn.style.left = x + "px";
+    yesBtn.style.top = y + "px";
+});
+
+noBtn.addEventListener("click", () => {
+    alert("Universe stability dropping… love required to continue.");
+});
+
+yesBtn.addEventListener("click", () => {
+    const name = document.getElementById("nameInput").value || "Legend";
+    message.style.display="block";
+    message.innerHTML = `🎆 HAPPY ENDING UNLOCKED 🎆<br><br>
+    ${name} chose love ❤️<br>
+    The crowd cheers. Music swells. Credits roll.<br>
+    Imtiyas & ${name} — Coming Soon in Love.exe 3 😌`;
+    startConfetti();
+});
+
+function startConfetti() {
+    for(let i=0;i<160;i++){
+        let c=document.createElement("div");
+        c.classList.add("confetti");
+        c.style.left=Math.random()*100+"vw";
+        c.style.backgroundColor=["#ff4d6d","#ffd166","#06d6a0","#118ab2","#ef476f"][Math.floor(Math.random()*5)];
+        c.style.animationDuration=(Math.random()*2+2)+"s";
+        document.body.appendChild(c);
+    }
+}
+</script>
+
+</body>
+</html>
